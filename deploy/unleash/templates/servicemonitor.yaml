@@ -1,0 +1,18 @@
+{{if .Values.serviceMonitor.enabled}}
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "unleash.name" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "unleash.name" . }}
+  endpoints:
+    - port: http
+      interval: 30s
+      path: /internal-backstage/prometheus
+
+
+  {{ end }}

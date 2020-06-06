@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "unleash.fullname" . }}
+  labels:
+{{ include "unleash.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "unleash.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "unleash.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+
+      initContainers:
+        - name: init-myservice
+          image: busybox:1.28
+          "command": [
+            "sh", "-c",
+            "for i in $(seq 1 200); do nc -z -w3 unleash-postgresql 5432 && exit 0 || sleep 3; done; exit 1"
+          ]
+
+      volumes:
+        - name: serverfiles
+          configMap:
+            name: unleash-serverfiles
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: UNLEASH_HOST_URL
+              value: {{.Values.ingress.host}}
+            - name: HEADER_BACKGROUND_COLOR
+              value: {{.Values.headerBackgroundColor | quote}}
+            - name: UNLEASH_DATABASE
+              value: {{.Values.postgresqlHa.postgresqlDatabase}}
+            - name: UNLEASH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.posgresqlExistingSecret}}
+                  key: postgresql-password
+          ports:
+            - name: http
+              containerPort: 4242
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+
+          volumeMounts:
+            - name: serverfiles
+              mountPath: /usr/node/app/mount
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

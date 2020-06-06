@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unleash-serverfiles
+  namespace: {{$.Release.Namespace}}
+data:
+{{ (.Files.Glob "serverfiles/*").AsConfig | indent 2 }}

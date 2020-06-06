@@ -1,0 +1,8 @@
+{
+  "name": "feature-toggles",
+  "version": "1.0.0",
+  "dependencies": {
+    "unleash-server": "3.3.4",
+    "basic-auth": "^2.0.1"
+  }
+}

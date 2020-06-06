@@ -1,0 +1,45 @@
+
+
+service:
+  type: NodePort
+  port: 80
+
+headerBackgroundColor: '#1e88e5'
+image:
+  imagePullPolicy: IfNotPresent
+  repository: ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/***REMOVED***-unleash
+  tag: 0.2.7
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  enabled: true
+  host: unleash.***REMOVED***-test.com
+  path: /
+posgresqlExistingSecret: unleash-postgresql-config
+postgresqlHa:
+  enabled: true
+  existingSecret: unleash-postgresql-config
+  global:
+    ldap:
+      existingSecret: myExistingSecret
+    pgpool:
+      existingSecret: unleash-postgresql-ha-pgpool
+    postgresql:
+      existingSecret: unleash-postgresql-ha-postgresql
+  resources:
+    limits:
+      cpu: 128m
+      memory: 512Mi
+    requests:
+      cpu: 64m
+      memory: 256Mi
+replicaCount: 3
+resources:
+  limits:
+    cpu: 512m
+    memory: 512Mi
+  requests:
+    cpu: 256m
+    memory: 256Mi
+serviceMonitor:
+  enabled: true
