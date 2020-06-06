@@ -43,11 +43,11 @@ spec:
             - name: UNLEASH_HOST_URL
               value: {{.Values.ingress.host}}
             - name: UNLEASH_DATABASE_URL
-              value: {{.Values.postgresl.host}}
+              value: {{.Values.global.postgresql.url}}
             - name: HEADER_BACKGROUND_COLOR
               value: {{.Values.headerBackgroundColor | quote}}
             - name: UNLEASH_DATABASE
-              value: {{.Values.postgresqlHa.postgresqlDatabase}}
+              value: {{.Values.global.postgresql.database}}
             - name: UNLEASH_PASSWORD
               valueFrom:
                 secretKeyRef:
