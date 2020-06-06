@@ -42,6 +42,8 @@ spec:
           env:
             - name: UNLEASH_HOST_URL
               value: {{.Values.ingress.host}}
+            - name: UNLEASH_DATABASE_URL
+              value: {{.Values.postgresl.host}}
             - name: HEADER_BACKGROUND_COLOR
               value: {{.Values.headerBackgroundColor | quote}}
             - name: UNLEASH_DATABASE
