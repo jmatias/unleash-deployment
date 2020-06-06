@@ -1,5 +1,3 @@
-
-
 service:
   type: NodePort
   port: 80
@@ -7,13 +5,13 @@ service:
 headerBackgroundColor: '#1e88e5'
 image:
   imagePullPolicy: IfNotPresent
-  repository: ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/***REMOVED***-unleash
+  repository: jmatiastw/unleash
   tag: 0.2.7
 ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
   enabled: true
-  host: unleash.***REMOVED***-test.com
+  host: unleash.chart.local
   path: /
 posgresqlExistingSecret: unleash-postgresql-config
 postgresqlHa:
