@@ -2,10 +2,4 @@ apiVersion: v2
 appVersion: "1.0"
 description: Feature toggle framework.
 name: unleash
-version: 0.4.10
-
-
-dependencies:
-  - name: postgresql-ha
-    version: "^3.2.9"
-    repository: https://charts.bitnami.com/bitnami
+version: 0.5.24

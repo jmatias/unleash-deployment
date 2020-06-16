@@ -24,11 +24,26 @@ spec:
     {{- end }}
 
       initContainers:
-        - name: init-myservice
-          image: busybox:1.28
+        - name: init-stolon
+          image: postgres
+          env:
+            - name:  PGDATABASE
+              value: {{.Values.postgresql.database}}
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.posgresqlExistingSecret.name}}
+                  key: {{.Values.posgresqlExistingSecret.passwordKey}}
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.posgresqlExistingSecret.name}}
+                  key: {{.Values.posgresqlExistingSecret.usernameKey}}
+            - name: PGHOST
+              value: {{.Values.postgresql.url}}
           "command": [
             "sh", "-c",
-            "for i in $(seq 1 200); do nc -z -w3 unleash-postgresql-ha-postgresql 5432 && exit 0 || sleep 3; done; exit 1"
+            "for i in $(seq 1 200); do psql -l && exit 0 || sleep 3; done; exit 1"
           ]
 
       volumes:
@@ -43,16 +58,21 @@ spec:
             - name: UNLEASH_HOST_URL
               value: {{.Values.ingress.host}}
             - name: UNLEASH_DATABASE_URL
-              value: {{.Values.global.postgresql.url}}
+              value: {{.Values.postgresql.url}}
             - name: HEADER_BACKGROUND_COLOR
               value: {{.Values.headerBackgroundColor | quote}}
             - name: UNLEASH_DATABASE
-              value: {{.Values.global.postgresql.database}}
+              value: {{.Values.postgresql.database}}
             - name: UNLEASH_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{.Values.posgresqlExistingSecret}}
-                  key: postgresql-password
+                  name: {{.Values.posgresqlExistingSecret.name}}
+                  key: {{.Values.posgresqlExistingSecret.passwordKey}}
+            - name: UNLEASH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.posgresqlExistingSecret.name}}
+                  key: {{.Values.posgresqlExistingSecret.usernameKey}}
           ports:
             - name: http
               containerPort: 4242
@@ -61,10 +81,20 @@ spec:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 15
+            successThreshold: 1
+            failureThreshold: 5
+            periodSeconds: 10
+
           readinessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 15
+            successThreshold: 1
+            failureThreshold: 5
+            periodSeconds: 10
+
 
           volumeMounts:
             - name: serverfiles

@@ -13,31 +13,26 @@ ingress:
   enabled: true
   host: unleash.chart.local
   path: /
-posgresqlExistingSecret: unleash-postgresql-config
-postgresqlHa:
-  enabled: true
-  existingSecret: unleash-postgresql-config
-  global:
-    ldap:
-      existingSecret: myExistingSecret
-    pgpool:
-      existingSecret: unleash-postgresql-ha-pgpool
-    postgresql:
-      existingSecret: unleash-postgresql-ha-postgresql
-  resources:
-    limits:
-      cpu: 128m
-      memory: 512Mi
-    requests:
-      cpu: 64m
-      memory: 256Mi
+
+
+posgresqlExistingSecret:
+  name: unleash-superuser
+  usernameKey: pg_su_username
+  passwordKey: pg_su_password
+
+postgresql:
+  url: default
+  database: default
+
+
 replicaCount: 3
 resources:
   limits:
-    cpu: 512m
-    memory: 512Mi
+    cpu: 64m
+    memory: 64Mi
   requests:
-    cpu: 256m
-    memory: 256Mi
+    cpu: 128m
+    memory: 128Mi
+
 serviceMonitor:
   enabled: true

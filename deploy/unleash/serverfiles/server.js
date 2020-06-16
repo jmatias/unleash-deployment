@@ -5,6 +5,7 @@ const auth = require('basic-auth');
 
 console.log(`Username: ${process.env.UNLEASH_USERNAME}`);
 console.log(`Database: ${process.env.UNLEASH_DATABASE}`);
+console.log(`Database URL: ${process.env.UNLEASH_DATABASE_URL}`);
 
 function basicAuthentication(app) {
     app.use('/api/admin/', (req, res, next) => {
@@ -37,7 +38,7 @@ function basicAuthentication(app) {
 
 unleash
     .start({
-        databaseUrl: `postgres://postgres:${process.env.UNLEASH_PASSWORD}@${process.env.UNLEASH_DATABASE_URL}:5432/${process.env.UNLEASH_DATABASE}`,
+        databaseUrl: `postgres://${process.env.UNLEASH_USERNAME}:${process.env.UNLEASH_PASSWORD}@${process.env.UNLEASH_DATABASE_URL}:5432/${process.env.UNLEASH_DATABASE}`,
         ui: {
             headerBackground: `${process.env.HEADER_BACKGROUND_COLOR}`
         },
