@@ -2,4 +2,4 @@ apiVersion: v2
 appVersion: "1.0"
 description: Feature toggle framework.
 name: unleash
-version: 0.5.24
+version: 0.5.25
