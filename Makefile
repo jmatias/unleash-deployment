@@ -1,10 +1,10 @@
 .PHONY: build
 
 ifndef DOCKER_TAG
-DOCKER_TAG := "0.2.9"
+DOCKER_TAG := "0.2.13"
 endif
 
-all: docker-push chart
+all: docker-push
 
 docker:
 	docker build -t jmatiastw/unleash:$(DOCKER_TAG) .
