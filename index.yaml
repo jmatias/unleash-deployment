@@ -3,7 +3,7 @@ entries:
   stolon:
   - apiVersion: v1
     appVersion: 0.16.0
-    created: "2020-07-09T06:19:54.8990798-04:00"
+    created: "2020-07-09T06:22:45.2797325-04:00"
     description: Stolon - PostgreSQL cloud native High Availability.
     digest: e9d543fdcf0fba7841100ae0af8b6a9a764b689791ce6ba8e38a4e799ecaeef2
     home: https://github.com/sorintlab/stolon
@@ -18,16 +18,16 @@ entries:
     - https://github.com/sorintlab/stolon
     - https://github.com/lwolf/stolon-chart
     urls:
-    - https://github.com/jmatias/helm-charts/releases/download/stolon-1.6.3/stolon-1.6.3.tgz
+    - https://github.com/jmatias/unleash-deployment/releases/download/stolon-1.6.3/stolon-1.6.3.tgz
     version: 1.6.3
   unleash:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2020-07-09T06:19:55.0500073-04:00"
+    created: "2020-07-09T06:22:45.4191204-04:00"
     description: Feature toggle framework.
     digest: f3faa8bb4374b5fa1dde8214ea1d673d909a612af13d80207e395a98e0f4b9f3
     name: unleash
     urls:
-    - https://github.com/jmatias/helm-charts/releases/download/unleash-0.5.25/unleash-0.5.25.tgz
+    - https://github.com/jmatias/unleash-deployment/releases/download/unleash-0.5.25/unleash-0.5.25.tgz
     version: 0.5.25
-generated: "2020-07-09T06:19:54.7130427-04:00"
+generated: "2020-07-09T06:22:45.0901448-04:00"

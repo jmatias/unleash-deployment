@@ -16,3 +16,4 @@ push: docker-push
 
 chart:
 	helm push ./deploy/unleash chartmuseum
+	helm push ./deploy/stolon chartmuseum
