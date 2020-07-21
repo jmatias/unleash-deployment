@@ -1,7 +1,7 @@
 .PHONY: build
 
 ifndef DOCKER_TAG
-DOCKER_TAG := "0.2.13"
+DOCKER_TAG := "0.2.14"
 endif
 
 all: docker-push
@@ -15,5 +15,5 @@ docker-push: docker
 push: docker-push
 
 chart:
-	helm push ./deploy/unleash chartmuseum
+	-helm push ./deploy/unleash chartmuseum
 	helm push ./deploy/stolon chartmuseum
