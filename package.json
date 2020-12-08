@@ -2,7 +2,8 @@
   "name": "feature-toggles",
   "version": "1.0.1",
   "dependencies": {
-    "unleash-server": "3.4.1",
+    "unleash-server": "3.7.0",
     "basic-auth": "^2.0.1"
-  }
+  },
+  "license": "MIT"
 }
